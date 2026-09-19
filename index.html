@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Bot Command | Multi-Channel Automation & Dispatch Engine</title>
+  <meta name="description" content="Proprietary multi-channel bot orchestration platform, live webhook gateway, and anti-spam sentry for Nexus Operations Group Inc.">
+  <meta property="og:title" content="Nexus Bot Command | Enterprise Bot Orchestration">
+  <meta property="og:description" content="Centralized multi-channel Telegram & Discord bot management, instant broadcast dispatching, and live audit telemetry.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Inter"', 'sans-serif'],
+            heading: ['"Space Grotesk"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            cyber: {
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+            },
+            night: {
+              950: '#07080f',
+              900: '#0c0e1a',
+              850: '#111425',
+              800: '#181c33',
+              750: '#212644',
+              700: '#2c3359',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #07080f;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+    h1, h2, h3, .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .cyber-card {
+      background: linear-gradient(180deg, rgba(17, 20, 37, 0.9) 0%, rgba(12, 14, 26, 0.95) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.18);
+      backdrop-filter: blur(16px);
+    }
+    .cyber-card:hover {
+      border-color: rgba(129, 140, 248, 0.35);
+    }
+    .glow-indigo {
+      box-shadow: 0 0 35px -10px rgba(99, 102, 241, 0.25);
+    }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0c0e1a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #212644;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200">
+
+  <!-- TOP APP HEADER -->
+  <header class="sticky top-0 z-40 border-b border-indigo-500/15 bg-night-950/90 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Organization Details (Clean Typographic) -->
+      <div class="flex flex-col justify-center">
+        <div class="flex items-center gap-2.5">
+          <span class="font-bold text-white tracking-tight text-lg font-heading">NEXUS<span class="text-indigo-400 font-extrabold">COMMAND</span></span>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-semibold tracking-wide uppercase">Bot Orchestration</span>
+        </div>
+        <div class="text-[11px] text-zinc-400">Nexus Operations Group • Instance: <span class="font-mono text-indigo-300">#NX-BOT-904</span></div>
+      </div>
+
+      <!-- Gateway Status & Actions -->
+      <div class="flex items-center gap-3">
+        
+        <!-- Live Gateway WebSocket Indicator -->
+        <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-night-900 border border-indigo-500/20 text-zinc-300 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Gateway: <span class="text-emerald-400 font-semibold">Connected (22ms)</span></span>
+        </div>
+
+        <!-- Bot Status Badge -->
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-indigo-950/60 border border-indigo-500/30 text-indigo-300 text-xs font-mono">
+          <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+          <span>Status: <strong class="text-white">Active (3 Bots)</strong></span>
+        </div>
+
+        <!-- Minimal Profile Avatar Icon -->
+        <div class="pl-2 border-l border-night-800 flex items-center">
+          <button class="w-8 h-8 rounded-full bg-night-800 border border-indigo-500/30 hover:border-indigo-400 flex items-center justify-center text-indigo-300 hover:text-white transition-colors" title="Admin Account">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- DASHBOARD BODY -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
+
+    <!-- KPI STATS CARDS (CYBER INDIGO THEME) -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Card 1 -->
+      <div class="cyber-card rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
+          <span>Alerts Dispatched Today</span>
+          <span class="text-indigo-300 bg-indigo-950/70 border border-indigo-500/20 px-2 py-0.5 rounded text-[10px]">+14.2%</span>
+        </div>
+        <div class="text-3xl font-mono font-bold text-white tracking-tight" id="alertCount">14,892</div>
+        <div class="text-[11px] text-zinc-400 mt-2 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+          <span>Telegram (9,410) • Discord (5,482)</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="cyber-card rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
+          <span>Managed Community Users</span>
+          <span class="text-emerald-400 bg-emerald-950/50 border border-emerald-500/20 px-2 py-0.5 rounded text-[10px]">Verified</span>
+        </div>
+        <div class="text-3xl font-mono font-bold text-white tracking-tight">8,420 <span class="text-xs font-normal text-zinc-400 font-sans">members</span></div>
+        <div class="text-[11px] text-zinc-400 mt-2 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          <span>Across 4 Discord guilds & 2 Telegram groups</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="cyber-card rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
+          <span>Webhook Response Latency</span>
+          <span class="text-indigo-300 bg-indigo-950/70 border border-indigo-500/20 px-2 py-0.5 rounded text-[10px]">Ultra-Fast</span>
+        </div>
+        <div class="text-3xl font-mono font-bold text-indigo-300 tracking-tight">58 <span class="text-xs font-normal text-zinc-400 font-sans">ms</span></div>
+        <div class="text-[11px] text-zinc-400 mt-2 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+          <span>FastAPI async pipeline • 99.99% Uptime</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="cyber-card rounded-2xl p-5 relative overflow-hidden">
+        <div class="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
+          <span>Auto-Mod Threat Intercepts</span>
+          <span class="text-rose-400 bg-rose-950/50 border border-rose-500/20 px-2 py-0.5 rounded text-[10px]">Shield Active</span>
+        </div>
+        <div class="text-3xl font-mono font-bold text-rose-400 tracking-tight">184</div>
+        <div class="text-[11px] text-zinc-400 mt-2 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+          <span>Phishing links & spam bots auto-muted</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- LIVE BROADCAST DISPATCHER & LOG TERMINAL -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Left: Interactive Broadcast Simulator (5 Cols) -->
+      <div class="cyber-card rounded-2xl p-6 lg:col-span-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between border-b border-indigo-500/15 pb-3 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-indigo-400 animate-pulse"></span>
+              <h2 class="text-sm font-bold text-white font-mono uppercase tracking-wider">Manual Dispatcher Tool</h2>
+            </div>
+            <span class="text-[10px] font-mono text-indigo-300 bg-indigo-950/80 px-2 py-0.5 rounded border border-indigo-500/20">Live Gateway</span>
+          </div>
+
+          <p class="text-xs text-zinc-400 mb-5 leading-relaxed">
+            Trigger custom markdown broadcasts or test notifications across connected bot targets.
+          </p>
+
+          <form id="broadcastForm" class="space-y-4">
+            <!-- Target Channel Selection -->
+            <div>
+              <label class="block text-[11px] font-mono text-zinc-400 uppercase tracking-wider mb-1.5">Target Destination</label>
+              <select id="targetChannel" class="w-full bg-night-900 border border-indigo-500/20 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-indigo-400">
+                <option value="[TELEGRAM VIP]">Telegram: @ApexDeals_VIP (3,420 users)</option>
+                <option value="[DISCORD TRADING]">Discord: #trading-signals (4,110 users)</option>
+                <option value="[DISCORD ANNOUNCE]">Discord: #announcements (Global)</option>
+                <option value="[TELEGRAM LOGS]">Telegram: @Internal_DevLogs</option>
+              </select>
+            </div>
+
+            <!-- Alert Priority -->
+            <div class="grid grid-cols-3 gap-2 text-xs font-mono">
+              <label class="flex items-center justify-center p-2 rounded-xl bg-night-900 border border-indigo-500/20 hover:border-indigo-400 cursor-pointer has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-950/40">
+                <input type="radio" name="priority" value="INFO" checked class="hidden">
+                <span class="text-indigo-300 text-[11px]">Normal</span>
+              </label>
+              <label class="flex items-center justify-center p-2 rounded-xl bg-night-900 border border-indigo-500/20 hover:border-amber-400 cursor-pointer has-[:checked]:border-amber-500 has-[:checked]:bg-amber-950/40">
+                <input type="radio" name="priority" value="WARNING" class="hidden">
+                <span class="text-amber-300 text-[11px]">Warning</span>
+              </label>
+              <label class="flex items-center justify-center p-2 rounded-xl bg-night-900 border border-indigo-500/20 hover:border-rose-400 cursor-pointer has-[:checked]:border-rose-500 has-[:checked]:bg-rose-950/40">
+                <input type="radio" name="priority" value="URGENT" class="hidden">
+                <span class="text-rose-300 text-[11px]">Urgent</span>
+              </label>
+            </div>
+
+            <!-- Message Payload -->
+            <div>
+              <label class="block text-[11px] font-mono text-zinc-400 uppercase tracking-wider mb-1.5">Message Content</label>
+              <textarea id="broadcastMessage" rows="3" class="w-full bg-night-900 border border-indigo-500/20 rounded-xl p-3 text-xs text-white font-mono placeholder-zinc-500 focus:outline-none focus:border-indigo-400 resize-none">🚀 New system deployment finished. Repricing daemons are synchronized.</textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitDispatchBtn" class="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs font-mono tracking-wide transition-all shadow-md shadow-indigo-600/30 flex items-center justify-center gap-2">
+              <svg id="dispatchIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+              <span id="dispatchBtnText">Broadcast to Bot Gateway</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-indigo-500/15 flex items-center justify-between text-[11px] font-mono text-zinc-400">
+          <span>Rate Limit: 30 msgs/sec</span>
+          <span class="text-emerald-400">● Webhook Queue Clear</span>
+        </div>
+      </div>
+
+      <!-- Right: Real-time Live Log Console (7 Cols) -->
+      <div class="cyber-card rounded-2xl p-6 lg:col-span-7 flex flex-col justify-between">
+        <div class="flex items-center justify-between border-b border-indigo-500/15 pb-3 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <h2 class="text-sm font-bold text-white font-mono uppercase tracking-wider">Live Event Stream & WebSocket Log</h2>
+          </div>
+          <button id="clearLogsBtn" class="text-[10px] font-mono text-zinc-400 hover:text-white bg-night-900 px-2 py-0.5 rounded border border-indigo-500/20 transition-colors">
+            Clear Logs
+          </button>
+        </div>
+
+        <!-- Terminal Stream Window -->
+        <div id="terminalStream" class="bg-night-950/95 rounded-xl p-4 font-mono text-[11px] leading-relaxed text-zinc-400 h-80 overflow-y-auto space-y-1.5 border border-indigo-500/15">
+          <div><span class="text-zinc-600">20:34:10</span> <span class="text-indigo-400">[GATEWAY]</span> WebSocket handshake complete. Authenticated as <span class="text-white">Nexus-Daemon-01</span></div>
+          <div><span class="text-zinc-600">20:34:14</span> <span class="text-emerald-400">[TELEGRAM]</span> Inbound command /status received from user @ops_lead</div>
+          <div><span class="text-zinc-600">20:34:18</span> <span class="text-indigo-400">[DISPATCH]</span> Delivered response in 42ms (HTTP 200)</div>
+          <div><span class="text-zinc-600">20:34:23</span> <span class="text-purple-400">[DISCORD]</span> Member joined guild #NexusTrading. Issued captcha verification embed</div>
+          <div><span class="text-zinc-600">20:34:28</span> <span class="text-emerald-400">[SECURITY]</span> Captcha passed in 4.1s. Assigned role: <span class="text-white">@VerifiedMember</span></div>
+          <div><span class="text-zinc-600">20:34:35</span> <span class="text-rose-400">[SHIELD]</span> Flagged spam link from guest user. Auto-deleted & timed out for 10m</div>
+          <div><span class="text-zinc-600">20:34:42</span> <span class="text-indigo-400">[CRON]</span> Heartbeat ping: 22ms. 0 dropped packets in queue</div>
+          <div class="text-indigo-400/80">● Listening for inbound events and webhook triggers...</div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-indigo-500/15 flex items-center justify-between text-[11px] font-mono text-zinc-400">
+          <span>Daemon: <strong class="text-white">aiogram-v3 / discord.py</strong></span>
+          <span class="text-emerald-400">Redis Cache: 0.8ms</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CONNECTED BOT INSTANCES & CHANNEL STATUS -->
+    <section class="cyber-card rounded-2xl p-6">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-base font-bold text-white tracking-tight">Active Bot Instances & Channel Gateways</h2>
+          <p class="text-xs text-zinc-400">Centralized connectivity monitor for all deployed community bots</p>
+        </div>
+        <div class="text-xs font-mono text-emerald-400 bg-emerald-950/50 border border-emerald-500/20 px-3 py-1 rounded-xl">
+          ● 4 Services Online
+        </div>
+      </div>
+
+      <!-- Grid of Instances -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- Instance 1 -->
+        <div class="p-4 rounded-xl bg-night-900 border border-indigo-500/15">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2 py-0.5 rounded bg-sky-950/70 border border-sky-500/30 text-sky-400 text-[10px] font-mono">Telegram Bot</span>
+            <span class="text-[10px] font-mono text-emerald-400">● 99.9% Up</span>
+          </div>
+          <h3 class="text-sm font-bold text-white mb-1">Apex Deals Bot</h3>
+          <div class="text-[11px] text-zinc-400 font-mono mb-3">@ApexDeals_Bot</div>
+          <div class="text-[11px] text-zinc-400 flex items-center justify-between pt-2 border-t border-night-800">
+            <span>Subscribers</span>
+            <span class="text-white font-semibold">3,420</span>
+          </div>
+        </div>
+
+        <!-- Instance 2 -->
+        <div class="p-4 rounded-xl bg-night-900 border border-indigo-500/15">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2 py-0.5 rounded bg-indigo-950/70 border border-indigo-500/30 text-indigo-400 text-[10px] font-mono">Discord Guild</span>
+            <span class="text-[10px] font-mono text-emerald-400">● 99.9% Up</span>
+          </div>
+          <h3 class="text-sm font-bold text-white mb-1">Nexus Trading VIP</h3>
+          <div class="text-[11px] text-zinc-400 font-mono mb-3">Role Manager & Signals</div>
+          <div class="text-[11px] text-zinc-400 flex items-center justify-between pt-2 border-t border-night-800">
+            <span>Members</span>
+            <span class="text-white font-semibold">4,110</span>
+          </div>
+        </div>
+
+        <!-- Instance 3 -->
+        <div class="p-4 rounded-xl bg-night-900 border border-indigo-500/15">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2 py-0.5 rounded bg-purple-950/70 border border-purple-500/30 text-purple-400 text-[10px] font-mono">Auto-Mod Shield</span>
+            <span class="text-[10px] font-mono text-emerald-400">● Active</span>
+          </div>
+          <h3 class="text-sm font-bold text-white mb-1">Anti-Spam Sentry</h3>
+          <div class="text-[11px] text-zinc-400 font-mono mb-3">Regex Link & Raid Blocker</div>
+          <div class="text-[11px] text-zinc-400 flex items-center justify-between pt-2 border-t border-night-800">
+            <span>Blocked Today</span>
+            <span class="text-rose-400 font-semibold">184</span>
+          </div>
+        </div>
+
+        <!-- Instance 4 -->
+        <div class="p-4 rounded-xl bg-night-900 border border-indigo-500/15">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2 py-0.5 rounded bg-amber-950/70 border border-amber-500/30 text-amber-400 text-[10px] font-mono">Stripe Webhook</span>
+            <span class="text-[10px] font-mono text-emerald-400">● Listening</span>
+          </div>
+          <h3 class="text-sm font-bold text-white mb-1">Subscription Sync</h3>
+          <div class="text-[11px] text-zinc-400 font-mono mb-3">Auto-Grant VIP Roles</div>
+          <div class="text-[11px] text-zinc-400 flex items-center justify-between pt-2 border-t border-night-800">
+            <span>Events (24h)</span>
+            <span class="text-white font-semibold">92</span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- STRICT INTERNAL ENTERPRISE FOOTER -->
+  <footer class="border-t border-indigo-500/15 bg-night-950 py-6 text-center text-xs text-zinc-500 font-mono">
+    © 2026 Nexus Operations Group Inc. • Proprietary Multi-Channel Bot Orchestration Infrastructure • Confidential Internal System
+  </footer>
+
+  <!-- INTERACTIVE DISPATCHER SCRIPT -->
+  <script>
+    const form = document.getElementById('broadcastForm');
+    const terminal = document.getElementById('terminalStream');
+    const submitBtn = document.getElementById('submitDispatchBtn');
+    const btnText = document.getElementById('dispatchBtnText');
+    const alertCountElem = document.getElementById('alertCount');
+    let totalAlerts = 14892;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const channel = document.getElementById('targetChannel').value;
+      const message = document.getElementById('broadcastMessage').value.trim();
+      const priorityRadio = document.querySelector('input[name="priority"]:checked');
+      const priority = priorityRadio ? priorityRadio.value : 'INFO';
+
+      if (!message) return;
+
+      // Animate Button
+      submitBtn.disabled = true;
+      btnText.innerText = 'Broadcasting...';
+
+      setTimeout(() => {
+        const time = new Date().toTimeString().split(' ')[0];
+        totalAlerts++;
+        alertCountElem.innerText = totalAlerts.toLocaleString();
+
+        let badgeColor = 'text-indigo-400';
+        if (priority === 'WARNING') badgeColor = 'text-amber-400';
+        if (priority === 'URGENT') badgeColor = 'text-rose-400';
+
+        const logEntry = document.createElement('div');
+        logEntry.innerHTML = `<span class="text-zinc-600">${time}</span> <span class="${badgeColor}">[${priority}]</span> ${channel} Broadcasted: "${message.substring(0, 45)}..." (Status 200 OK)`;
+        terminal.appendChild(logEntry);
+        terminal.scrollTop = terminal.scrollHeight;
+
+        btnText.innerText = '✓ Sent Successfully!';
+        submitBtn.classList.replace('bg-indigo-600', 'bg-emerald-600');
+
+        setTimeout(() => {
+          btnText.innerText = 'Broadcast to Bot Gateway';
+          submitBtn.classList.replace('bg-emerald-600', 'bg-indigo-600');
+          submitBtn.disabled = false;
+        }, 1500);
+
+      }, 700);
+    });
+
+    document.getElementById('clearLogsBtn').addEventListener('click', () => {
+      terminal.innerHTML = '<div class="text-zinc-500 font-mono text-[11px]">● Terminal log buffer cleared. Waiting for next events...</div>';
+    });
+  </script>
+
+</body>
+</html>
